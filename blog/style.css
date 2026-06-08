@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+min-height:100vh;
+padding:30px;
+background:linear-gradient(135deg,#4f46e5,#9333ea,#06b6d4);
+animation:fadeIn 1s ease;
+}
+
+/* Page Animation */
+@keyframes fadeIn{
+from{
+opacity:0;
+transform:translateY(20px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* Heading */
+h2{
+text-align:center;
+color:white;
+font-size:34px;
+margin-bottom:25px;
+animation:slideDown .8s ease;
+}
+
+@keyframes slideDown{
+from{
+opacity:0;
+transform:translateY(-30px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* Add Post Button */
+a[href="create.php"]{
+display:inline-block;
+padding:12px 18px;
+background:linear-gradient(90deg,#10b981,#06b6d4);
+color:white;
+text-decoration:none;
+border-radius:12px;
+font-weight:600;
+margin-bottom:20px;
+transition:.3s;
+}
+
+a[href="create.php"]:hover{
+transform:scale(1.05);
+box-shadow:0 0 20px rgba(255,255,255,.3);
+}
+
+/* Logout Button */
+a[href="logout.php"]{
+background:#ef4444 !important;
+color:white !important;
+font-weight:600;
+transition:.3s;
+}
+
+a[href="logout.php"]:hover{
+transform:scale(1.05);
+}
+
+/* Table */
+table{
+width:100%;
+border-collapse:collapse;
+background:rgba(255,255,255,0.12);
+backdrop-filter:blur(18px);
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 15px 35px rgba(0,0,0,.25);
+animation:tableZoom .9s ease;
+color:white;
+}
+
+@keyframes tableZoom{
+from{
+opacity:0;
+transform:scale(.92);
+}
+to{
+opacity:1;
+transform:scale(1);
+}
+}
+
+/* Table Header */
+th{
+background:rgba(0,0,0,.25);
+padding:16px;
+font-size:16px;
+font-weight:600;
+letter-spacing:.5px;
+}
+
+/* Table Data */
+td{
+padding:15px;
+text-align:center;
+border-bottom:1px solid rgba(255,255,255,.12);
+}
+
+/* Hover Effect */
+tr{
+transition:.3s;
+}
+
+tr:hover{
+background:rgba(255,255,255,.08);
+transform:scale(1.01);
+}
+
+/* Edit Link */
+a[href*="edit"]{
+color:#93c5fd;
+font-weight:600;
+text-decoration:none;
+}
+
+a[href*="edit"]:hover{
+text-decoration:underline;
+}
+
+/* Delete Link */
+a[href*="delete"]{
+color:#fca5a5;
+font-weight:600;
+text-decoration:none;
+}
+
+a[href*="delete"]:hover{
+text-decoration:underline;
+}
+
+/* Mobile Responsive */
+@media(max-width:768px){
+
+body{
+padding:15px;
+}
+
+h2{
+font-size:26px;
+}
+
+table{
+font-size:13px;
+}
+
+th,td{
+padding:10px;
+}
+
+}
