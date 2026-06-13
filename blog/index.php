@@ -9,59 +9,200 @@ if(!isset($_SESSION['username']))
 
 include 'db.php';
 
-$result = mysqli_query($conn, "SELECT * FROM posts");
+
+// SEARCH
+$search = "";
+
+if(isset($_GET['search']))
+{
+    $search = $_GET['search'];
+}
+
+
+// PAGINATION
+
+$limit = 5;
+
+if(isset($_GET['page']))
+{
+    $page = $_GET['page'];
+}
+else
+{
+    $page = 1;
+}
+
+$start = ($page - 1) * $limit;
+
+
+// GET POSTS
+
+$sql = "SELECT * FROM posts 
+WHERE title LIKE '%$search%' 
+OR content LIKE '%$search%'
+LIMIT $start,$limit";
+
+
+$result = mysqli_query($conn,$sql);
+
+
+// COUNT POSTS
+
+$count_sql = "SELECT COUNT(*) AS total 
+FROM posts
+WHERE title LIKE '%$search%'
+OR content LIKE '%$search%'";
+
+
+$count_result = mysqli_query($conn,$count_sql);
+
+$count_row = mysqli_fetch_assoc($count_result);
+
+$total_posts = $count_row['total'];
+
+$total_pages = ceil($total_posts/$limit);
+
 ?>
+
 
 <!DOCTYPE html>
 <html>
+
 <head>
-    <title>Blog Posts</title>
-    <link rel="stylesheet" href="style.css">
+
+<title>Blog Posts</title>
+
+<link rel="stylesheet" href="style.css">
+
 </head>
+
+
 <body>
 
-<a href="logout.php" style="
-position:absolute;
-top:20px;
-right:20px;
-background:red;
-color:white;
-padding:10px 15px;
-border-radius:8px;
-text-decoration:none;
-font-weight:bold;
-">
+
+<a href="logout.php" class="logout">
 Logout
 </a>
 
-<h2>Welcome, <?php echo $_SESSION['username']; ?> 👋</h2>
 
-<a href="create.php">➕ Add New Post</a>
 
-<br><br>
+<h2>
+Welcome, <?php echo $_SESSION['username']; ?> 👋
+</h2>
 
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Title</th>
-        <th>Content</th>
-        <th>Action</th>
-    </tr>
 
-    <?php while($row = mysqli_fetch_assoc($result)) { ?>
-    <tr>
-        <td><?php echo $row['id']; ?></td>
-        <td><?php echo $row['title']; ?></td>
-        <td><?php echo $row['content']; ?></td>
-        <td>
-            <a href="edit.php?id=<?php echo $row['id']; ?>">Edit</a>
-            |
-            <a href="delete.php?id=<?php echo $row['id']; ?>">Delete</a>
-        </td>
-    </tr>
-    <?php } ?>
 
-</table>
+<a href="create.php" class="add-btn">
+➕ Add New Post
+</a>
+
+
+
+
+<div class="search-box">
+
+<form method="GET">
+
+<input 
+type="text"
+name="search"
+placeholder="Search posts..."
+value="<?php echo $search; ?>"
+>
+
+
+<button>
+🔍 Search
+</button>
+
+
+</form>
+
+</div>
+
+
+
+
+<div class="cards">
+
+
+<?php while($row=mysqli_fetch_assoc($result)){ ?>
+
+
+<div class="blog-card">
+
+
+<h3>
+<?php echo $row['title']; ?>
+</h3>
+
+
+<p>
+<?php echo $row['content']; ?>
+</p>
+
+
+
+<div class="actions">
+
+
+<a href="edit.php?id=<?php echo $row['id']; ?>">
+✏ Edit
+</a>
+
+
+<a href="delete.php?id=<?php echo $row['id']; ?>">
+🗑 Delete
+</a>
+
+
+</div>
+
+
+</div>
+
+
+
+<?php } ?>
+
+
+</div>
+
+
+
+
+
+
+<div class="pagination">
+
+
+<?php
+
+for($i=1;$i<=$total_pages;$i++)
+{
+
+?>
+
+
+<a href="?page=<?php echo $i; ?>&search=<?php echo $search; ?>">
+
+<?php echo $i; ?>
+
+</a>
+
+
+<?php
+
+}
+
+?>
+
+
+</div>
+
+
+
 
 </body>
+
 </html>
